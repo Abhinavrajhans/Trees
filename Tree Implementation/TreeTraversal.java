@@ -1,6 +1,16 @@
 
 import java.util.*;
 public class TreeTraversal {
+
+    public class Pair{
+        Node node;
+        int state;
+        Pair(Node node, int state){
+            this.node = node;
+            this.state = state;
+        }
+    }
+
     void preorder(Node node) {
         if (node == null)return;
         System.out.print(node.data + " ");
@@ -85,6 +95,35 @@ public class TreeTraversal {
                 }
             }
         }
+    }
+
+    void preInPostTraversal(Node node) {
+        if (node == null) return;
+        Stack<Pair> stack = new Stack<>();
+        stack.push(new Pair(node, 1));
+        ArrayList<Integer> pre = new ArrayList<>();
+        ArrayList<Integer> in = new ArrayList<>();
+        ArrayList<Integer> post = new ArrayList<>();
+
+        while (!stack.isEmpty()) {
+            Pair p = stack.pop();
+            if (p.state == 1) {
+                pre.add(p.node.data);
+                p.state++;
+                stack.push(p);
+                if (p.node.left != null) stack.push(new Pair(p.node.left, 1));
+            } else if (p.state == 2) {
+                in.add(p.node.data);
+                p.state++;
+                stack.push(p);
+                if (p.node.right != null) stack.push(new Pair(p.node.right, 1));
+            } else {
+                post.add(p.node.data);
+            }
+        }
+        System.out.println("Preorder: " + pre);
+        System.out.println("Inorder: " + in);
+        System.out.println("Postorder: " + post);
     }
 
 
