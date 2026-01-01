@@ -66,6 +66,28 @@ public class TreeTraversal {
     }
 
 
+    void iterativePostorderSingleStack(Node root) {
+        if (root == null) return;
+        Stack<Node> stack = new Stack<>();
+        Node curr = root;
+        Node lastVisited = null;
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            } else {
+                Node peekNode = stack.peek();
+                if (peekNode.right != null && lastVisited != peekNode.right) {
+                    curr = peekNode.right;
+                } else {
+                    System.out.print(peekNode.data + " ");
+                    lastVisited = stack.pop();
+                }
+            }
+        }
+    }
+
+
     void levelOrder(Node root) {
         if (root == null) return;
         Queue<Node> queue = new LinkedList<>();
